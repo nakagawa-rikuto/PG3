@@ -1,29 +1,30 @@
 #include <stdio.h>
 
-template <typename Type>
-Type Min(Type a, Type b) {
-
-	if (a < b) {
-		return static_cast<Type>(b);
-	} else {
-		return static_cast<Type>(a);
+// 前の一時間でもらった時給 *　2 - 50円の計算
+int Recursive(int n, int salary) {
+	if (n <= 1) {
+		return salary;
 	}
-}
 
-/// ===テンプレートの解除=== ///
-//NOTE: template <> = テンプレの解除
-template <>
-char Min<char>(char a, char b) {
-	printf("数字以外は代入できません");
-	return ' ';
+	int currentResult = salary * 2 - 50; // 今回の計算
+	return Recursive(n - 1, currentResult) + salary; // 前回の計算結果を足す
 }
 
 int main() {
 
-	printf("%d : int型\n", Min<int>(114, 551)); // int型
-	printf("%3.1f : float型\n", Min<float>(114.0f, 54.2f)); // float型
-	printf("%3.1lf : double型\n", Min<double>(11.0f, 55.5f)); // double型
-	printf("%c : char型\n", Min<char>(11, 55)); // char型
+	int time = 0;
+	int salary = 100;
+	int result = 0;
+	int select = 0;
+
+	printf("労働時間を入力してください\n");
+	scanf_s("%d", &time);
+
+	result = 1079 * time;
+	printf("%d\n", result);
+
+	result = Recursive(time, salary);
+	printf("%d\n", result);
 
 	return 0;
 }
