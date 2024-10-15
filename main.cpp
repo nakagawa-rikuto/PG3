@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <functional>
+#include <thread>
 
 // 判定結果を表示するためのコールバック関数の型を定義
 typedef void (*ResultCallback)(bool);
@@ -16,6 +18,16 @@ void DisplayResult(bool isCorrect) {
     }
 }
 
+// SetTimeout 関数: 指定したミリ秒後にコールバック関数を呼び出す
+void SetTimeout(int milliseconds, std::function<void()> callback) {
+    std::thread([milliseconds, callback]() {
+        // 指定時間待機
+        Sleep(milliseconds);
+        // 待機後にコールバックを実行
+        callback();
+        }).detach(); // スレッドをデタッチして、非同期で動作させる
+}
+
 // サイコロの出目を決定し、ユーザーの予想と比較する関数
 void RollDiceAndJudge(const char* userGuess) {
     // ランダムな出目を生成（1～6）
@@ -25,11 +37,10 @@ void RollDiceAndJudge(const char* userGuess) {
     bool isEven = (diceRoll % 2 == 0);
     bool userGuessedEven = (userGuess[0] == '丁'); // 丁の場合は偶数と判定
 
-    // 3秒間待つ
-    Sleep(3000); // Sleepの引数はミリ秒なので3000に変更
-
-    // ユーザーの予想と結果を比較し、コールバック関数を呼び出す
-    DisplayResult(isEven == userGuessedEven);
+    // ラムダ式を使って、3秒後に結果を表示するようにする
+    SetTimeout(3000, [isEven, userGuessedEven]() {
+        DisplayResult(isEven == userGuessedEven);
+        });
 }
 
 int main() {
@@ -44,6 +55,10 @@ int main() {
 
     // サイコロを振り、判定と結果表示を行う
     RollDiceAndJudge(userGuess);
+
+    // 終了前にユーザー入力を待つ（スレッドの実行を待つため）
+    getchar();
+    getchar();
 
     return 0;
 }
