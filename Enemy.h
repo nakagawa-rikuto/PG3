@@ -1,31 +1,31 @@
 #pragma once
 
 class Enemy {
-public:/// ===ƒƒ“ƒoŠÖ”=== ///
+public:/// ===ãƒ¡ãƒ³ãƒé–¢æ•°=== ///
 
 	Enemy();
 	~Enemy();
 
 	enum EnemyMode {
-		Approach,
-		Shooting,
-		Withdrawal
+		approach,
+		shooting,
+		withdrawal
 	};
 
-	void Update();      // XV
+	void Update();      // æ›´æ–°
 
-	void Approach();    // Ú‹ß
-	void Shooting();	// ËŒ‚
-	void Withdrawal();  // —£’E
+	void Approach();    // æ¥è¿‘
+	void Shooting();	// å°„æ’ƒ
+	void Withdrawal();  // é›¢è„±
 
-private:/// ===ƒƒ“ƒo•Ï”=== ///
+private:/// ===ãƒ¡ãƒ³ãƒå¤‰æ•°=== ///
 
+	// é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°ã¨ã—ã¦ã®ãƒ¢ãƒ¼ãƒ‰
 	static int mode_;
 
-	// ƒƒ“ƒoŠÖ”ƒ|ƒCƒ“ƒ^
+	// ãƒ¡ãƒ³ãƒé–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 	void (Enemy::* pFunc)();
 
-	// ƒƒ“ƒoŠÖ”ƒ|ƒCƒ“ƒ^‚Ìƒe[ƒuƒ‹
+	// ãƒ¡ãƒ³ãƒé–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®ãƒ†ãƒ¼ãƒ–ãƒ«
 	static void (Enemy::* spFuncTable[])();
-
 };
